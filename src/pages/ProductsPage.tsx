@@ -2,8 +2,10 @@ import { useProducts } from '../hooks/useProducts';
 import { useAuth } from '../contexts/AuthContext'; 
 
 export default function ProductsPage() {
-  const { data: products, isLoading, error } = useProducts();
-  const { role } = useAuth(); // <-- الآن سيأتي الدور "admin" أو "employee"
+  const { role, session, loading } = useAuth(); // <-- الآن سيأتي الدور "admin" أو "employee"
+  const query = useProducts({ enabled: !!session && !!role && !loading });
+  const { data: products, isLoading, isFetching, error, refetch } = query;
+  console.log('[ProductsPage] role:', role, 'isLoading:', isLoading, 'isFetching:', isFetching, 'productsCount:', products?.length ?? 0, 'error:', error);
 
   const getProductImage = (product: any): string => {
     const variantWithImage = product.variants.find(
@@ -40,7 +42,19 @@ export default function ProductsPage() {
       </div>
 
       {isLoading && <p>جاري تحميل المنتجات...</p>}
-      {error && <p className="text-red-600">حدث خطأ: {error.message}</p>}
+      {error && <p className="text-red-600">حدث خطأ: {error?.message ?? 'خطأ غير معروف'}</p>}
+
+      {!isLoading && (!products || products.length === 0) && (
+        <div className="p-6 text-center">
+          <p className="text-gray-600 mb-4">لا توجد منتجات للعرض أو فشل في جلبها.</p>
+          <button
+            onClick={() => refetch()}
+            className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+          >
+            إعادة المحاولة
+          </button>
+        </div>
+      )}
 
       {products && (
         <div className="bg-white shadow rounded-lg overflow-x-auto">

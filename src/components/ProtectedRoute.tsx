@@ -5,7 +5,10 @@ export default function ProtectedRoute() {
   const { session, loading } = useAuth();
   console.log('ProtectedRoute - Session:', session, 'Loading:', loading);
 
-  if (loading) {
+  // Show loading only when we are still loading AND there is no session yet.
+  // This prevents blocking the app when a session exists but some background
+  // profile fetch is still in progress.
+  if (loading && !session) {
     return <div className="flex items-center justify-center h-screen">
       <div className="text-xl">جاري تحميل بيانات المصادقة...</div>
     </div>;

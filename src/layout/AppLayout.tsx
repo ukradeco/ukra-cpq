@@ -1,14 +1,20 @@
 import { Outlet, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { supabase } from '../lib/supabaseClient';
 
 export default function AppLayout() {
   const { user } = useAuth();
   console.log('AppLayout - User:', user);
 
-  const handleLogout = () => {
-    console.log('Logging out...');
-    supabase.auth.signOut();
+  const { signOut } = useAuth();
+
+  const handleLogout = async () => {
+    console.log('Logging out via AuthContext...');
+    try {
+      const res = await signOut();
+      console.log('signOut result:', res);
+    } catch (err) {
+      console.error('Error during signOut:', err);
+    }
   };
 
   return (
