@@ -1,0 +1,83 @@
+table_name,column_name,data_type,is_nullable,column_default
+color_palettes,id,uuid,NO,gen_random_uuid()
+color_palettes,name,text,NO,null
+color_palettes,primary_hex,text,NO,null
+color_palettes,secondary_hex,text,YES,null
+color_palettes,accent_hex,text,YES,null
+color_palettes,created_at,timestamp with time zone,NO,now()
+customers,id,uuid,NO,gen_random_uuid()
+customers,full_name,text,NO,null
+customers,phone_number,text,NO,null
+customers,email,text,YES,null
+customers,user_id,uuid,YES,null
+customers,created_at,timestamp with time zone,NO,now()
+employee_registration_codes,id,integer,NO,null
+employee_registration_codes,pin_code,text,NO,null
+employee_registration_codes,is_active,boolean,NO,true
+employee_registration_codes,created_at,timestamp with time zone,NO,now()
+main_categories,id,uuid,NO,gen_random_uuid()
+main_categories,name,text,NO,null
+main_categories,color_hex,text,YES,null
+main_categories,created_at,timestamp with time zone,NO,now()
+products,id,uuid,NO,gen_random_uuid()
+products,created_at,timestamp with time zone,NO,now()
+products,name,text,NO,null
+products,description,text,YES,null
+products,tags,ARRAY,YES,null
+products,sub_category_id,uuid,YES,null
+products,default_margin_pct,numeric,YES,0.00
+profiles,id,uuid,NO,null
+profiles,full_name,text,YES,null
+profiles,role,USER-DEFINED,NO,'customer'::user_role
+profiles,updated_at,timestamp with time zone,YES,now()
+quote_items,id,bigint,NO,null
+quote_items,quote_id,uuid,NO,null
+quote_items,_deprecated_product_id,uuid,NO,null
+quote_items,quantity,integer,NO,null
+quote_items,unit_sale_price,numeric,NO,null
+quote_items,variant_id,uuid,YES,null
+quote_items,snapshot_cost_price,numeric,NO,0.00
+quotes,id,uuid,NO,gen_random_uuid()
+quotes,created_at,timestamp with time zone,NO,now()
+quotes,created_by,uuid,NO,null
+quotes,customer_id,uuid,YES,null
+quotes,project_name,text,NO,null
+quotes,status,USER-DEFINED,NO,'draft'::quote_status
+quotes,total_sale_price,numeric,YES,0.00
+quotes,project_style,text,YES,null
+quotes,project_type,text,YES,null
+quotes,created_by_profile_id,uuid,YES,null
+quotes,total_cost_price,numeric,YES,0
+quotes,discount_tier_applied,text,YES,null
+quotes,generated_pdf_url,text,YES,null
+quotes,room_template_id,uuid,YES,null
+room_template_items,id,bigint,NO,nextval('room_template_items_id_seq'::regclass)
+room_template_items,room_template_id,uuid,NO,null
+room_template_items,variant_id,uuid,NO,null
+room_template_items,quantity,integer,NO,1
+room_templates,id,uuid,NO,gen_random_uuid()
+room_templates,name,text,NO,null
+room_templates,description,text,YES,null
+room_templates,generated_image_urls,ARRAY,YES,null
+room_templates,created_at,timestamp with time zone,NO,now()
+room_templates,created_by,uuid,YES,null
+sub_categories,id,uuid,NO,gen_random_uuid()
+sub_categories,main_category_id,uuid,NO,null
+sub_categories,name,text,NO,null
+sub_categories,created_at,timestamp with time zone,NO,now()
+variants,id,uuid,NO,gen_random_uuid()
+variants,product_id,uuid,NO,null
+variants,name,text,NO,null
+variants,sku,text,YES,null
+variants,cost_price,numeric,NO,0.00
+variants,sale_price,numeric,NO,null
+variants,dimensions,jsonb,YES,null
+variants,color,text,YES,null
+variants,style,text,YES,null
+variants,image_urls,ARRAY,YES,null
+variants,created_at,timestamp with time zone,NO,now()
+variants,wood_type_id,uuid,YES,null
+wood_types,id,uuid,NO,gen_random_uuid()
+wood_types,name,text,NO,null
+wood_types,swatch_image_url,text,YES,null
+wood_types,created_at,timestamp with time zone,NO,now()
